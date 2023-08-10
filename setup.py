@@ -12,6 +12,6 @@ setup(name='viral_reddit_posts_utils',
       author='Kenneth Myers',
       url='https://github.com/ViralRedditPosts',
       packages=find_packages(exclude=['tests*']),
-      python_requires=">= 3.7,<3.8",
+      python_requires=">= 3.7",
       install_requires=requires,
      )
