@@ -12,18 +12,11 @@ def findConfig() -> str:
   :return: string of config file location
   """
   # searches for main file, falls back to example file if not found
-  fileList = [
-    './reddit.cfg',
-    '../reddit.cfg',
-    '../../reddit.cfg',
-    './example_reddit.cfg',
-    '../example_reddit.cfg',
-    '../../example_reddit.cfg'
-  ]
-  for f in fileList:
-    if os.path.exists(f):
-      return f
-  raise RuntimeError("Reddit config file not found. Place it in either ./ or ../")
+  file_loc = '~/.reddit.cfg'
+  if os.path.exists(file_loc):
+    return file_loc
+  else:
+    raise RuntimeError("Reddit config file not found. Place the example config template in your home directory and rename it to '.reddit.cfg'")
 
 
 DEFAULT_KEYS = {
