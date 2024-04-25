@@ -39,8 +39,8 @@ dev = [
     "viral_reddit_posts_utils[build]"
 ]
 
-[tool.setuptools]
-package-dir = {"" = "src"}
+[tool.setuptools.packages]
+find = {}
 
 
 
