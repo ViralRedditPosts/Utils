@@ -40,7 +40,7 @@ dev = [
 ]
 
 [tool.setuptools.packages.find]
-where = ['viral_reddit_posts_utils']
+where = ['src']
 exclude = ['tests*']
 
 

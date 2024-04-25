@@ -1,4 +1,4 @@
-from viral_reddit_posts_utils.config_utils import *
+from src.config_utils import *
 
 
 def test_find_config():
