@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+# see https://packaging.python.org/en/latest/guides/writing-pyproject-toml/
+[project]
+name = "viral_reddit_posts_utils"
+
+dynamic = ["version"]
+
+dependencies = [
+    "boto3==1.26.117",
+]
+
+requires-python = "== 3.12.3"
+
+authors = [
+  {name = "Kenneth Myers", email = "myers.kenneth.james@gmail.com"},
+]
+
+description = "This project contains the utils of the Viral Reddit Posts project. It is intended to be shared across different modules like data collection and model prediction."
+
+readme = "README.md"
+
+[project.optional-dependencies]
+test = [
+    "moto[dynamodb,s3]==4.1.8",
+    "pytest==7.3.1",
+    "pytest-cov==4.0.0",
+    "viral_reddit_posts_utils"
+]
+build = [
+    "flake8",
+    "black",
+    "viral_reddit_posts_utils[test]"
+]
+dev = [
+    "pre-commit==2.21.0",
+    "viral_reddit_posts_utils[build]"
+]
+
+[tool.setuptools.packages.find]
+where = ['viral_reddit_posts_utils']
+exclude = ['tests*']
+
+
+
+

@@ -5,18 +5,19 @@ import os
 from collections import defaultdict
 
 
-def findConfig() -> str:
+def find_config() -> str:
   """
   Finds config file locally
 
   :return: string of config file location
   """
   # searches for main file, falls back to example file if not found
-  file_loc = '~/.reddit.cfg'
+  home = os.path.expanduser('~')
+  file_loc = os.path.join(home, '.reddit.cfg')
   if os.path.exists(file_loc):
     return file_loc
   else:
-    raise RuntimeError("Reddit config file not found. Place the example config template in your home directory and rename it to '.reddit.cfg'")
+    raise FileNotFoundError("Reddit config file not found. Place the example config template in your home directory and rename it to '.reddit.cfg'")
 
 
 DEFAULT_KEYS = {
@@ -27,32 +28,32 @@ DEFAULT_KEYS = {
 }
 
 
-def parseConfig(
-  cfgFile: str,
-  keysToRead: dict = None
+def parse_config(
+  cfg_file: str,
+  keys_to_read: dict = None
 ) -> dict:
   """
   Read in the config data from a location to a dictionary and return that dictionary.
 
-  :param cfgFile: location of config file. Can be an S3 location
-  :param keysToRead:
+  :param cfg_file: location of config file. Can be an S3 location
+  :param keys_to_read:
   :return: config dictionary
   """
-  if keysToRead is None:
-    keysToRead = DEFAULT_KEYS
+  if keys_to_read is None:
+    keys_to_read = DEFAULT_KEYS
   parser = ConfigParser()
   cfg = defaultdict(dict)
 
-  if cfgFile[:2].lower() == 's3':
+  if cfg_file[:2].lower() == 's3':
     s3 = boto3.client('s3')
-    pathSplit = cfgFile.replace('s3://', '').split('/')
-    bucket = pathSplit[0]
-    objLoc = '/'.join(pathSplit[1:])
+    path_split = cfg_file.replace('s3://', '').split('/')
+    bucket = path_split[0]
+    objLoc = '/'.join(path_split[1:])
     obj = s3.get_object(Bucket=bucket, Key=objLoc)
     _ = parser.read_string(obj['Body'].read().decode())
   else:
-    _ = parser.read(cfgFile)
-  for k, vList in keysToRead.items():
+    _ = parser.read(cfg_file)
+  for k, vList in keys_to_read.items():
     for v in vList:
       cfg[k][v] = json.loads(parser.get(k, v))  # json helps with list conversion
   return cfg
