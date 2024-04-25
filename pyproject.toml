@@ -38,11 +38,3 @@ dev = [
     "pre-commit==2.21.0",
     "viral_reddit_posts_utils[build]"
 ]
-
-[tool.setuptools.packages.find]
-where = ['src']
-exclude = ['tests*']
-
-
-
-
